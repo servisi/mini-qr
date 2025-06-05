@@ -26,7 +26,11 @@ import {
 import { parseCSV, validateCSVData } from '@/utils/csv'
 import { generateVCardData } from '@/utils/dataEncoding'
 import { getNumericCSSValue } from '@/utils/formatting'
-import { allPresets, defaultPreset, type Preset } from '@/utils/presets'
+import {
+  allQrCodePresets,
+  defaultPreset,
+  type Preset
+} from '@/utils/qrCodePresets'
 import { allFramePresets, defaultFramePreset, type FramePreset } from '@/utils/framePresets'
 import { useMediaQuery } from '@vueuse/core'
 import JSZip from 'jszip'
@@ -206,8 +210,8 @@ function uploadImage() {
 const isPresetSelectOpen = ref(false)
 const allPresetOptions = computed(() => {
   const options = lastCustomLoadedPreset.value
-    ? [lastCustomLoadedPreset.value, ...allPresets]
-    : allPresets
+    ? [lastCustomLoadedPreset.value, ...allQrCodePresets]
+    : allQrCodePresets
   return options.map((preset) => ({ value: preset.name, label: t(preset.name) }))
 })
 const selectedPreset = ref<
@@ -255,7 +259,9 @@ watch(
       return
     }
 
-    const updatedPreset = allPresets.find((preset) => preset.name === newKey)
+    const updatedPreset = allQrCodePresets.find(
+      (preset) => preset.name === newKey
+    )
     if (updatedPreset) {
       selectedPreset.value = updatedPreset
     }
